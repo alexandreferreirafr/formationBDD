@@ -26,3 +26,14 @@
     Then le solde du compte cheque est de 100€
     Then le solde du compte épargne est de 0€
     Then le virement est réfusé motif provision insuffisante
+
+
+@RG3
+Scenario: Virement plafonné
+  Given j'ai un compte cheque avec un solde de 1000€
+  Given j'ai un compte épargne avec un solde de 0€
+  Given j'ai un plafond sur le compte cheque de 500€
+  When j'effectue un virement de 501€ du compte cheque vers le compte épargne
+  Then le solde du compte cheque est de 1000€
+  Then le solde du compte épargne est de 0€
+  Then le virement est réfusé motif plafond dépassé

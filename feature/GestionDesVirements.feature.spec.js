@@ -71,4 +71,35 @@ defineFeature(feature, test => {
         });
     });
 
+    test('Virement plafonné', ({ given, when, then, pending }) => {
+        given(/^j'ai un compte cheque avec un solde de (.*)€$/, (solde) => {
+            compteCheque.setSolde(parseInt(solde))
+        });
+
+        given(/^j'ai un compte épargne avec un solde de (.*)€$/, (solde) => {
+            compteEpargne.setSolde(parseInt(solde))
+        });
+
+        given(/^j'ai un plafond sur le compte cheque de (.*)€$/, (plafond) => {
+            compteCheque.setPlafond(parseInt(plafond))
+        });
+
+        when(/^j'effectue un virement de (.*)€ du compte cheque vers le compte épargne$/, (virement) => {
+            statusVirement = serviceVirement.effectuerVirement(virement, compteCheque, compteEpargne)
+        });
+
+        then(/^le solde du compte cheque est de (.*)€$/, (nouveauSolde) => {
+            expect(compteCheque.solde).toBe(parseInt(nouveauSolde))
+        });
+
+        then(/^le solde du compte épargne est de (.*)€$/, (nouveauSolde) => {
+            expect(compteEpargne.solde).toBe(parseInt(nouveauSolde))
+        });
+
+        then('le virement est réfusé motif plafond dépassé', () => {
+            expect(statusVirement).toBe(VIREMENT_STATUS.REFUSE_PLAFOND_DEPASSE)
+        });
+    });
+
+
 })
