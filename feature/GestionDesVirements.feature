@@ -15,3 +15,14 @@
     When j'effectue un virement de 100€ du compte cheque vers le compte épargne
     Then le solde du comte cheque est de 400€
     Then le solde du compte épargne est de 100€
+    Then le virement est accepté
+
+
+  @RG2
+  Scenario: Virement hors provision
+    Given j'ai un compte cheque avec un solde de 100€
+    Given j'ai un compte épargne avec un solde de 0€
+    When j'effectue un virement de 1000€ du compte cheque vers le compte épargne
+    Then le solde du compte cheque est de 100€
+    Then le solde du compte épargne est de 0€
+    Then le virement est réfusé motif provision insuffisante
