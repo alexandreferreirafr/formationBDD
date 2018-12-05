@@ -9,13 +9,19 @@
 
 
   @RG1
-  Scenario: Virement simple
-    Given j'ai un compte cheque avec un solde de 500€
-    Given j'ai un compte épargne avec un solde de 0€
-    When j'effectue un virement de 100€ du compte cheque vers le compte épargne
-    Then le solde du comte cheque est de 400€
-    Then le solde du compte épargne est de 100€
+  Scenario Outline: Virement simple
+    Given j'ai un compte cheque avec un solde de <soldeCompteCheque>€
+    Given j'ai un compte épargne avec un solde de <soldeCompteEpargne>€
+    When j'effectue un virement de <montantVirement>€ du compte cheque vers le compte épargne
+    Then le solde du compte cheque est de <soldeFinalCompteCheque>€
+    Then le solde du compte épargne est de <soldeFinalCompteEpargne>€
     Then le virement est accepté
+
+    Examples:
+
+    | soldeCompteCheque | soldeCompteEpargne | montantVirement | soldeFinalCompteCheque | soldeFinalCompteEpargne |
+    | 500               | 0                  | 100             | 400                    | 100                     |
+    | 1000              | 2000               | 1000            | 0                      | 3000                    |
 
 
   @RG2
