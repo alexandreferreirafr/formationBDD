@@ -3,5 +3,6 @@ export default class Compte {
     }
 
     setSolde(solde) {
+        this.solde = parseInt(solde)
     }
 }
